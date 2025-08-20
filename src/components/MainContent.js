@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/MainContent.css';
 import NewsCard from './NewsCard.js';
+import { newsStorage } from '../utils/newsStorage';
 
 const MainContent = () => {
   const mainNews = {
@@ -10,37 +11,15 @@ const MainContent = () => {
     date: "May 15, 2023",
     image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80'
   };
+  
+    const [featuredNews, setFeaturedNews] = useState([]);
 
-  const newsItems = [
-    {
-      title: "Jodhpur Records Highest Temperature of the Season",
-      excerpt: "The mercury soared to 45°C yesterday, breaking previous records for this time of the year. The meteorological department has issued a heatwave alert for the next three days.",
-      category: "Weather",
-      date: "May 14, 2023",
-      image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80'
-    },
-    {
-      title: "New Flight Routes from Jodhpur Airport Announced",
-      excerpt: "Three new domestic routes will be operational starting next month, connecting Jodhpur to Bangalore, Hyderabad, and Ahmedabad directly.",
-      category: "Transport",
-      date: "May 13, 2023",
-      image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80'
-    },
-    {
-      title: "Blue City Cultural Festival Begins Next Week",
-      excerpt: "The annual celebration of Jodhpur's arts and culture will feature performances from local and international artists across 10 venues in the city.",
-      category: "Entertainment",
-      date: "May 12, 2023",
-      image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80'
-    },
-    {
-      title: "Local Startup Wins National Innovation Award",
-      excerpt: "A Jodhpur-based tech startup has been recognized for its innovative water conservation solution that helps farmers reduce water usage by up to 40%.",
-      category: "Business",
-      date: "May 11, 2023",
-      image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80'
-    }
-  ];
+  useEffect(() => {
+    const news = newsStorage.getFeaturedNews();
+    setFeaturedNews(news);
+  }, []);
+
+ 
 
   return (
     <main className="main-content">
@@ -76,13 +55,20 @@ const MainContent = () => {
         </section>
         
         <section className="latest-news">
-          <h2 className="section-title">Latest News</h2>
-          <div className="news-grid">
-            {newsItems.map((news, index) => (
-              <NewsCard key={index} {...news} />
-            ))}
-          </div>
-        </section>
+        <h2 className="section-title">Latest News</h2>
+        <div className="news-grid">
+          {featuredNews.map(newsItem => (
+            <NewsCard
+              key={newsItem.id}
+              title={newsItem.title}
+              excerpt={newsItem.excerpt}
+              category={newsItem.category}
+              date={newsItem.date}
+              image={newsItem.image}
+            />
+          ))}
+        </div>
+      </section>
       </div>
       
       <aside className="sidebar">

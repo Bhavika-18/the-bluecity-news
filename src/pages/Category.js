@@ -1,47 +1,17 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import NewsCard from '../components/NewsCard';
+import { newsStorage } from '../utils/newsStorage';
 import '../styles/Category.css';
 
-// Sample news data (replace with API fetch in real app)
-const newsData = [
-  {
-    id: 1,
-    title: "Jodhpur MLA Announces New Development Projects",
-    excerpt: "The local MLA has announced ₹50 crore worth of infrastructure projects for the city.",
-    category: "Politics",
-    date: "May 20, 2023",
-    image: "/images/politics1.jpg"
-  },
-  {
-    id: 2,
-    title: "Tourism Booms in Jodhpur Post-Pandemic",
-    excerpt: "Jodhpur sees a 120% increase in tourist footfall compared to last year.",
-    category: "Business",
-    date: "May 19, 2023",
-    image: "/images/business1.jpg"
-  },
-  {
-    id: 3,
-    title: "RJCA Stadium to Host International Cricket Match",
-    excerpt: "Jodhpur’s RCA Stadium selected for an India vs. Australia T20 match in November.",
-    category: "Sports",
-    date: "May 18, 2023",
-    image: "/images/sports1.jpg"
-  },
-  {
-    id: 4,
-    title: "Local Artist Wins National Award for Rajasthani Folk Art",
-    excerpt: "Jodhpur-based artist awarded for reviving traditional Phad paintings.",
-    category: "Entertainment",
-    date: "May 17, 2023",
-    image: "/images/entertainment1.jpg"
-  }
-];
-
 const CategoryPage = () => {
-  const { category } = useParams(); // Get category from URL (e.g., /category/politics)
-  const filteredNews = newsData.filter(news => news.category.toLowerCase() === category.toLowerCase());
+  const { category } = useParams();
+  const [news, setNews] = useState([]);
+
+  useEffect(() => {
+    const categoryNews = newsStorage.getNewsByCategory(category);
+    setNews(categoryNews);
+  }, [category]);
 
   return (
     <div className="category-page">
@@ -51,15 +21,15 @@ const CategoryPage = () => {
       </div>
 
       <div className="news-grid">
-        {filteredNews.length > 0 ? (
-          filteredNews.map(news => (
+        {news.length > 0 ? (
+          news.map(newsItem => (
             <NewsCard
-              key={news.id}
-              title={news.title}
-              excerpt={news.excerpt}
-              category={news.category}
-              date={news.date}
-              image={news.image}
+              key={newsItem.id}
+              title={newsItem.title}
+              excerpt={newsItem.excerpt}
+              category={newsItem.category}
+              date={newsItem.date}
+              image={newsItem.image}
             />
           ))
         ) : (
