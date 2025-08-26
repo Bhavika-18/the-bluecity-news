@@ -1,17 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
 import NewsCard from '../components/NewsCard';
-import { newsStorage } from '../utils/newsStorage';
+import { getNewsByCategory } from '../utils/newsStorage';
 import '../styles/Category.css';
 
 const CategoryPage = () => {
   const { category } = useParams();
-  const [news, setNews] = useState([]);
-
-  useEffect(() => {
-    const categoryNews = newsStorage.getNewsByCategory(category);
-    setNews(categoryNews);
-  }, [category]);
+  const filteredNews = getNewsByCategory(category);
 
   return (
     <div className="category-page">
@@ -21,15 +16,15 @@ const CategoryPage = () => {
       </div>
 
       <div className="news-grid">
-        {news.length > 0 ? (
-          news.map(newsItem => (
+        {filteredNews.length > 0 ? (
+          filteredNews.map(news => (
             <NewsCard
-              key={newsItem.id}
-              title={newsItem.title}
-              excerpt={newsItem.excerpt}
-              category={newsItem.category}
-              date={newsItem.date}
-              image={newsItem.image}
+              key={news.id}
+              title={news.title}
+              excerpt={news.excerpt}
+              category={news.category}
+              date={news.date}
+              image={news.image}
             />
           ))
         ) : (
