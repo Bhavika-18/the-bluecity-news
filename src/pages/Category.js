@@ -15,10 +15,10 @@ const CategoryPage = () => {
         <p>Latest updates from Jodhpur on {category}</p>
       </div>
 
-      <div className="news-grid">
+      <div className="category-news-grid">
         {filteredNews.length > 0 ? (
           filteredNews.map(news => (
-            <NewsCard
+            <NewsCard 
               key={news.id}
               title={news.title}
               excerpt={news.excerpt}

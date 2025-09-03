@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/MainContent.css';
 import NewsCard from './NewsCard.js';
-import { getNewsData, getWebsiteData } from '../utils/newsStorage';
+import { getFeaturedNews, getLatestNews, getWebsiteData } from '../utils/newsStorage';
 
 const MainContent = () => {
   const [featuredNews, setFeaturedNews] = useState([]);
@@ -9,27 +9,25 @@ const MainContent = () => {
   const [websiteData, setWebsiteData] = useState({});
 
   useEffect(() => {
-    const news = getNewsData();
-    const website = getWebsiteData();
-    
-    setWebsiteData(website);
-    
-    if (news.length > 0) {
-      setFeaturedNews([news[0]]);
-      setLatestNews(news.slice(1, 5));
-    }
+    setFeaturedNews(getFeaturedNews());
+    setLatestNews(getLatestNews());
+    setWebsiteData(getWebsiteData());
   }, []);
 
   return (
     <main className="main-content">
       <div className="content-wrapper">
         <section className="featured-news">
-          <h2 className="section-title">Featured Story</h2>
-          {featuredNews.length > 0 ? (
-            <NewsCard {...featuredNews[0]} featured={true} />
-          ) : (
-            <p className="no-news">No featured news available</p>
-          )}
+          <h2 className="section-title">Featured Stories</h2>
+          <div className="featured-grid">
+            {featuredNews.length > 0 ? (
+              featuredNews.map((newsItem, index) => (
+                <NewsCard key={newsItem.id} {...newsItem} featured={true} isMainFeature={index === 0} />
+              ))
+            ) : (
+              <p className="no-news">No featured news available</p>
+            )}
+          </div>
         </section>
         
         <section className="about-jodhpur" id="jodhpur">
@@ -46,7 +44,7 @@ const MainContent = () => {
         
         <section className="latest-news">
           <h2 className="section-title">Latest News</h2>
-          <div className="news-grid">
+          <div className="main-news-grid">
             {latestNews.length > 0 ? (
               latestNews.map(newsItem => (
                 <NewsCard

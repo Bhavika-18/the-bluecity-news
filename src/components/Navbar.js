@@ -28,6 +28,8 @@ const Navbar = () => {
         <li><Link to="/category/business">Business</Link></li>
         <li><Link to="/category/sports">Sports</Link></li>
         <li><Link to="/category/entertainment">Entertainment</Link></li>
+        <li><Link to="/category/heritage">Heritage</Link></li>
+        <li><Link to="/category/weather">Weather</Link></li>
       
       </ul>
     </nav>

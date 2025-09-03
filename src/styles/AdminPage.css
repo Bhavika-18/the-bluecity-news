@@ -320,7 +320,7 @@
   background: #f9fafb;
 }
 
-.news-image {
+.admin-news-image {
   width: 80px;
   height: 60px;
   border-radius: 6px;
@@ -328,7 +328,7 @@
   flex-shrink: 0;
 }
 
-.news-image img {
+.admin-news-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -427,6 +427,109 @@
   margin: 0;
   color: #6b7280;
   font-size: 0.85rem;
+}
+
+/* Add these styles to your existing AdminPanel.css */
+
+.type-selector {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.type-option {
+  cursor: pointer;
+}
+
+.type-option input[type="radio"] {
+  display: none;
+}
+
+.option-card {
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.type-option input[type="radio"]:checked + .option-card {
+  border-color: #1a237e;
+  background-color: #f0f4ff;
+}
+
+.type-option input[type="radio"]:disabled + .option-card {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.option-card svg {
+  margin-bottom: 0.5rem;
+  color: #6b7280;
+}
+
+.type-option input[type="radio"]:checked + .option-card svg {
+  color: #1a237e;
+}
+
+.option-card span {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.option-card small {
+  color: #6b7280;
+  font-size: 0.8rem;
+}
+
+.limit-badge {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: #ef4444;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+.news-item.featured {
+  border: 2px solid #f59e0b;
+  background: #fffbeb;
+}
+
+.featured-badge {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  background: #f59e0b;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.subtitle {
+  color: #6b7280;
+  margin-bottom: 1.5rem;
+}
+
+.no-news {
+  text-align: center;
+  color: #6b7280;
+  font-style: italic;
+  padding: 2rem;
 }
 
 /* Responsive */
