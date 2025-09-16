@@ -5,11 +5,16 @@ import '../styles/Navbar.css';
 
 const Navbar = () => {
   const [websiteData, setWebsiteData] = useState({});
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const data = getWebsiteData();
     setWebsiteData(data);
   }, []);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   return (
     <nav className="navbar">
@@ -22,15 +27,25 @@ const Navbar = () => {
           <Link to="/">BlueCity News</Link>
         )}
       </div>
-      <ul className="nav-links">
-        <li><Link to="/">Home</Link></li>
-        <li><Link to="/category/politics">Politics</Link></li>
-        <li><Link to="/category/business">Business</Link></li>
-        <li><Link to="/category/sports">Sports</Link></li>
-        <li><Link to="/category/entertainment">Entertainment</Link></li>
-        <li><Link to="/category/heritage">Heritage</Link></li>
-        <li><Link to="/category/weather">Weather</Link></li>
       
+      <button 
+        className={`menu-toggle ${isMenuOpen ? 'active' : ''}`}
+        onClick={toggleMenu}
+        aria-label="Toggle navigation menu"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      
+      <ul className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
+        <li><Link to="/" onClick={() => setIsMenuOpen(false)}>Home</Link></li>
+        <li><Link to="/category/politics" onClick={() => setIsMenuOpen(false)}>Politics</Link></li>
+        <li><Link to="/category/business" onClick={() => setIsMenuOpen(false)}>Business</Link></li>
+        <li><Link to="/category/sports" onClick={() => setIsMenuOpen(false)}>Sports</Link></li>
+        <li><Link to="/category/entertainment" onClick={() => setIsMenuOpen(false)}>Entertainment</Link></li>
+        <li><Link to="/category/heritage" onClick={() => setIsMenuOpen(false)}>Heritage</Link></li>
+        <li><Link to="/category/weather" onClick={() => setIsMenuOpen(false)}>Weather</Link></li>
       </ul>
     </nav>
   );
