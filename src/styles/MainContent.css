@@ -111,7 +111,7 @@ h2 {
   padding-left: 0.8rem;
 }
 
-img{
+.main-content img{
   margin-top: 30px;
  
 }
@@ -168,7 +168,7 @@ img{
     padding: 0.8rem;
   }
 
-  img{
+  .main-content img{
     margin-top: 30px;
     width: 100%;
   }
@@ -184,7 +184,7 @@ img{
     border-radius: 6px;
   }
 
-  img{
+  .main-content img{
     margin-top: 30px;
     width: 100%;
   }
