@@ -111,6 +111,11 @@ h2 {
   padding-left: 0.8rem;
 }
 
+img{
+  margin-top: 30px;
+ 
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
   .main-content {
@@ -142,6 +147,7 @@ h2 {
   .news-grid {
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   }
+  
 }
 
 @media (max-width: 768px) {
@@ -161,6 +167,11 @@ h2 {
   .quick-links a {
     padding: 0.8rem;
   }
+
+  img{
+    margin-top: 30px;
+    width: 100%;
+  }
 }
 
 @media (max-width: 480px) {
@@ -171,6 +182,11 @@ h2 {
   .about-content, .weather-widget, .quick-links {
     padding: 1rem;
     border-radius: 6px;
+  }
+
+  img{
+    margin-top: 30px;
+    width: 100%;
   }
   
   h2 {
