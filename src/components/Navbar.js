@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { getWebsiteData } from '../utils/newsStorage';
 import '../styles/Navbar.css';
 
+
 const Navbar = () => {
   const [websiteData, setWebsiteData] = useState({});
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -15,6 +16,7 @@ const Navbar = () => {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
 
   return (
     <nav className="navbar">

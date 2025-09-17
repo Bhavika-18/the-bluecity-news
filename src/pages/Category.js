@@ -1,12 +1,16 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import NewsCard from '../components/NewsCard';
-import { getNewsByCategory } from '../utils/newsStorage';
+import { getNewsData } from '../utils/newsStorage';
 import '../styles/Category.css';
 
 const CategoryPage = () => {
   const { category } = useParams();
-  const filteredNews = getNewsByCategory(category);
+  const filteredNews = getNewsData().filter(news =>
+    Array.isArray(news.category)
+      ? news.category.some(c => c.toLowerCase() === category.toLowerCase())
+      : news.category.toLowerCase() === category.toLowerCase()
+  );
 
   return (
     <div className="category-page">

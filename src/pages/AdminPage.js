@@ -14,7 +14,8 @@ import {
   Calendar,
   Globe,
   Star,
-  TrendingUp
+  TrendingUp,
+  Lock
 } from 'lucide-react';
 import {
   getNewsData,
@@ -28,6 +29,12 @@ import {
   addLatestNews
 } from '../utils/newsStorage';
 import '../styles/AdminPage.css';
+import AdminLogin from './AdminLogin.js';
+
+// Authentication check function
+const isAuthenticated = () => {
+  return localStorage.getItem('adminAuthenticated') === 'true';
+};
 
 // Dropzone Component
 const DropzoneComponent = ({ field, preview, onDrop }) => {
@@ -59,7 +66,8 @@ const DropzoneComponent = ({ field, preview, onDrop }) => {
   );
 };
 
-const AdminPanel = () => {
+const AdminPage = () => {
+  const [authenticated, setAuthenticated] = useState(isAuthenticated());
   const [activeTab, setActiveTab] = useState('dashboard');
   const [news, setNews] = useState([]);
   const [featuredNews, setFeaturedNews] = useState([]);
@@ -69,15 +77,39 @@ const AdminPanel = () => {
   const [newsForm, setNewsForm] = useState({
     title: '',
     excerpt: '',
-    category: 'Politics',
+    category: [],
     image: '',
-    type: 'latest' // 'latest' or 'featured'
+    type: 'latest'
   });
   const [uploadedImages, setUploadedImages] = useState({});
 
   useEffect(() => {
-    loadData();
+    const authStatus = isAuthenticated();
+    console.log('Authentication status on mount:', authStatus);
+    setAuthenticated(authStatus);
   }, []);
+
+  const handleLogin = useCallback((status) => {
+    console.log('handleLogin called with status:', status);
+    setAuthenticated(status);
+  }, []);
+
+
+  console.log('AdminLogin rendered, onLogin type:', typeof onLogin);
+
+  const handleLogout = useCallback(() => {
+    console.log('Logging out');
+    localStorage.removeItem('adminAuthenticated');
+    setAuthenticated(false);
+  }, []);
+
+  useEffect(() => {
+    if (authenticated) {
+      console.log('User authenticated, loading data');
+      loadData();
+    }
+  }, [authenticated]);
+  
 
   const loadData = () => {
     const allNews = getNewsData();
@@ -131,6 +163,11 @@ const AdminPanel = () => {
     setWebsiteData(prev => ({ ...prev, quickLinks: updatedLinks }));
   };
 
+  const handleNewsCategoryChange = (e) => {
+    const selected = Array.from(e.target.selectedOptions, option => option.value);
+    setNewsForm(prev => ({ ...prev, category: selected }));
+  };
+
   const handleNewsSubmit = (e) => {
     e.preventDefault();
 
@@ -150,7 +187,7 @@ const AdminPanel = () => {
     setNewsForm({
       title: '',
       excerpt: '',
-      category: 'Politics',
+      category: [],
       image: '',
       type: 'latest'
     });
@@ -168,7 +205,7 @@ const AdminPanel = () => {
     setNewsForm({
       title: newsItem.title,
       excerpt: newsItem.excerpt,
-      category: newsItem.category,
+      category: Array.isArray(newsItem.category) ? newsItem.category : [newsItem.category],
       image: newsItem.image || '',
       type: newsItem.type || 'latest'
     });
@@ -180,6 +217,8 @@ const AdminPanel = () => {
       loadData();
     }
   };
+
+
 
   const addQuickLink = () => {
     setWebsiteData(prev => ({
@@ -200,6 +239,13 @@ const AdminPanel = () => {
     { label: 'Categories', value: new Set(news.map(n => n.category)).size, icon: BarChart3, color: '#ef4444' }
   ];
 
+  // If not authenticated, show login form
+  if (!authenticated) {
+    console.log('Not authenticated, rendering AdminLogin');
+    return <AdminLogin onLogin={handleLogin} />;
+  }
+
+  console.log('Authenticated, rendering admin dashboard');
   return (
     <div className="admin-dashboard">
       {/* Sidebar */}
@@ -240,6 +286,12 @@ const AdminPanel = () => {
             <Settings size={20} /> Website Settings
           </button>
         </nav>
+        <div className="sidebar-footer">
+          <button onClick={handleLogout} className="btn-logout">
+            <Lock size={16} />
+            Logout
+          </button>
+        </div>
       </div>
 
       {/* Main Content */}
@@ -349,12 +401,14 @@ const AdminPanel = () => {
                     </div>
 
                     <div className="form-group">
-                      <label>Category *</label>
+                      <label>Categories *</label>
                       <select
                         name="category"
+                        multiple
                         value={newsForm.category}
-                        onChange={handleNewsInputChange}
+                        onChange={handleNewsCategoryChange}
                         required
+                        style={{ minHeight: '120px' }}
                       >
                         <option value="Politics">Politics</option>
                         <option value="Business">Business</option>
@@ -414,7 +468,9 @@ const AdminPanel = () => {
                         <h3>{newsItem.title}</h3>
                         <p>{newsItem.excerpt}</p>
                         <div className="news-meta">
-                          <span className="category">{newsItem.category}</span>
+                          <span className="category">
+                            {Array.isArray(newsItem.category) ? newsItem.category.join(', ') : newsItem.category}
+                          </span>
                           <span className="date">{newsItem.date}</span>
                         </div>
                       </div>
@@ -643,4 +699,4 @@ const AdminPanel = () => {
   );
 };
 
-export default AdminPanel;
+export default AdminPage;

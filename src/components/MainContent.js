@@ -51,7 +51,7 @@ const MainContent = () => {
                   key={newsItem.id}
                   title={newsItem.title}
                   excerpt={newsItem.excerpt}
-                  category={newsItem.category}
+                  
                   date={newsItem.date}
                   image={newsItem.image}
                 />

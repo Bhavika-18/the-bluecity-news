@@ -116,6 +116,11 @@ h2 {
  
 }
 
+.main-news-grid img{
+  margin-top: 0;
+
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
   .main-content {
