@@ -1,5 +1,6 @@
 import React from 'react';
 import '../styles/Footer.css';
+import { Facebook, Instagram } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -19,8 +20,8 @@ const Footer = () => {
         <div className="footer-section">
           <h3>Follow Us</h3>
           <div className="social-links">
-            <a href="https://www.facebook.com/TheBluecityNews/">Facebook</a>
-            <a href="https://www.instagram.com/thebluecitynews?igsh=MzR6dm96cG53ZTM5">Instagram</a>
+            <a href="https://www.facebook.com/thebluecityjodhpurofficial/"><Facebook size={24} /></a>
+            <a href="https://www.instagram.com/thebluecityjodhpurofficial/?hl=en"><Instagram size={24} /></a>
           </div>
         </div>
       </div>
