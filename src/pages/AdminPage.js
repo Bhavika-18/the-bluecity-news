@@ -287,7 +287,7 @@ const AdminPage = () => {
           </button>
         </nav>
         <div className="sidebar-footer">
-          <button onClick={handleLogout} className="btn-logout">
+          <button onClick={handleLogout} className="logout-btn">
             <Lock size={16} />
             Logout
           </button>
@@ -330,7 +330,13 @@ const AdminPage = () => {
                     <div key={item.id} className="activity-item">
                       <div className="activity-content">
                         <h4>{item.title}</h4>
-                        <p>{item.category} • {item.date}</p>
+                        <p>
+  {Array.isArray(item.category)
+    ? item.category.join(', ')
+    : item.category}
+  {' • '}
+  {item.date}
+</p>
                       </div>
                       <div className="activity-actions">
                         <button onClick={() => handleEditNews(item)} className="btn-edit">
